@@ -44,7 +44,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-catalog:data"))
     implementation(project(":feature-catalog:domain"))
 
     implementation(libs.androidx.core.ktx)
