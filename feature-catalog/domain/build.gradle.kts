@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("java-library")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 

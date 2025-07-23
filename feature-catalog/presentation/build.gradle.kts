@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -50,11 +50,11 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.androidx.material)
     implementation(libs.androidx.material3)
 
-    implementation("androidx.paging:paging-runtime-ktx:3.3.6")
-    implementation("androidx.paging:paging-compose:3.4.0-alpha01")
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -65,8 +65,8 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 
-    implementation("io.coil-kt.coil3:coil-compose:3.2.0")
-    implementation("io.coil-kt.coil3:coil-network-ktor3:3.2.0")
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.ktor3)
 
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)

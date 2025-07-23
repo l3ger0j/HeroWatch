@@ -48,7 +48,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.androidx.material)
     implementation(libs.androidx.material3)
 
     implementation(platform(libs.androidx.compose.bom))
@@ -57,13 +57,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.ui.tooling)
 
-    implementation("io.github.oleksandrbalan:textflow-material3:1.2.1")
+    implementation(libs.textflow.material3)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 
-    implementation("io.coil-kt.coil3:coil-compose:3.2.0")
-    implementation("io.coil-kt.coil3:coil-network-ktor3:3.2.0")
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.ktor3)
 
     implementation(libs.essenty.lifecycle)
     implementation(libs.decompose.core)
