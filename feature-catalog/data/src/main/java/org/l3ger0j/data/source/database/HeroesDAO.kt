@@ -11,17 +11,14 @@ import org.l3ger0j.data.source.database.model.HeroesEntityModel
 
 @Dao
 interface HeroesDAO {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrReplaceAll(users: List<HeroesEntityModel>)
-
     @Query("SELECT * FROM heroes")
-    suspend fun getAll(): List<HeroesEntityModel>
-
-    @Query("SELECT * FROM heroes")
-    fun getAllPaging(): PagingSource<Int, HeroesEntityModel>
+    fun all(): PagingSource<Int, HeroesEntityModel>
 
     @RawQuery(observedEntities = [HeroesEntityModel::class])
-    fun getAllSearchPaging(query: SupportSQLiteQuery): PagingSource<Int, HeroesEntityModel>
+    fun filtered(query: SupportSQLiteQuery): PagingSource<Int, HeroesEntityModel>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrReplaceAll(users: List<HeroesEntityModel>)
 
     @Query("DELETE FROM heroes")
     suspend fun clearAll()

@@ -50,7 +50,7 @@ class CatalogExecutor(
                             pageSize = 10,
                             enablePlaceholders = false
                         ),
-                        pagingSourceFactory = { appDatabase.heroes().getAllSearchPaging(query) },
+                        pagingSourceFactory = { appDatabase.heroes().filtered(query) },
                         remoteMediator = HeroRemoteMediator(
                             intent.filter,
                             filterAllCharactersUseCase,

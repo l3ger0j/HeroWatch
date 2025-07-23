@@ -28,7 +28,7 @@ class CatalogBootstrapper(
                     pageSize = 50,
                     enablePlaceholders = false
                 ),
-                pagingSourceFactory = { appDatabase.heroes().getAllPaging() },
+                pagingSourceFactory = { appDatabase.heroes().all() },
                 remoteMediator = HeroRemoteMediator(
                     hashMapOf(),
                     filterAllCharactersUseCase,
