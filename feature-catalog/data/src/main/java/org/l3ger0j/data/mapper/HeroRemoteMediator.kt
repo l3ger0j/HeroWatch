@@ -34,7 +34,7 @@ class HeroRemoteMediator(
             LoadType.REFRESH -> {
                 val pos = state.anchorPosition ?: 0
                 val id = state.closestItemToPosition(pos)?.id ?: 0
-                appDatabase.heroResponse().getElementById(id)?.next ?: REPO_LINK
+                appDatabase.heroResponse().getElementById(id)?.next ?: ""
             }
 
             LoadType.PREPEND -> {
