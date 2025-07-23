@@ -47,7 +47,7 @@ class CatalogExecutor(
 
                     val flowHeroPager = Pager(
                         config = PagingConfig(
-                            pageSize = 10,
+                            pageSize = 50,
                             enablePlaceholders = false
                         ),
                         pagingSourceFactory = { appDatabase.heroes().filtered(query) },
