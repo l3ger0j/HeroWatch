@@ -61,7 +61,7 @@ fun CatalogSearchFilterBar(
                                     .orEmpty()
                             }
                         filterMap.putAll(converter)
-                        component.doRefresh(filterMap)
+                        component.doRefresh(filterMap.ifEmpty { hashMapOf() })
                     },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },

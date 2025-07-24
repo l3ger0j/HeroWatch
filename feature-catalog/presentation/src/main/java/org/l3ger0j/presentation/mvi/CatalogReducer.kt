@@ -7,7 +7,8 @@ import org.l3ger0j.presentation.mvi.CatalogStore.State
 object CatalogReducer : Reducer<State, Message> {
     override fun State.reduce(msg: Message): State {
         return when (msg) {
-            is Message.UpdatePagingDataFlow -> copy(msg.flowPager)
+            is Message.UpdatePagingDataFlow -> copy(flowPagingData = msg.flowPager)
+            is Message.UpdateFilterMap -> copy(filterMap = msg.filter)
         }
     }
 }

@@ -10,15 +10,12 @@ import org.l3ger0j.presentation.mvi.CatalogStore.Label
 import org.l3ger0j.presentation.mvi.CatalogStore.State
 
 class RealCatalogStore(private val storeFactory: StoreFactory) : KoinComponent {
-    fun create(): CatalogStore = CatalogImpl()
-
-    private inner class CatalogImpl :
-        CatalogStore,
-        Store<Intent, State, Label> by storeFactory.create(
+    fun create(): CatalogStore =
+        object : CatalogStore, Store<Intent, State, Label> by storeFactory.create(
             name = "CatalogStore",
             initialState = State(),
-            bootstrapper = CatalogBootstrapper(get(), get(), ConnectivityChecker(get())),
+            bootstrapper = CatalogBootstrapper(),
             executorFactory = { CatalogExecutor(get(), get(), ConnectivityChecker(get())) },
             reducer = CatalogReducer
-        )
+        ) {}
 }

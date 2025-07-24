@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,8 +44,11 @@ fun CatalogContent(
     val data = state.flowPagingData.collectAsLazyPagingItems()
     val sizeResolver = rememberConstraintsSizeResolver()
     val isRefresh = remember { mutableStateOf(false) }
+    val filterMap: HashMap<String, String> = rememberSaveable { state.filterMap }
 
-    val filterMap: HashMap<String, String> = remember { hashMapOf() }
+//    if (state.filterMap.isEmpty() && filterMap.isNotEmpty()) {
+//        component.doRefresh(filterMap)
+//    }
 
     Scaffold(
         topBar = {

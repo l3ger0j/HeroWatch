@@ -6,9 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.map
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.l3ger0j.data.mapper.ConnectivityChecker
 import org.l3ger0j.data.mapper.HeroRemoteMediator
 import org.l3ger0j.data.mapper.mapToDomain
@@ -26,15 +24,39 @@ class CatalogExecutor(
     private val appDatabase: AppDatabase,
     private val connectivityChecker: ConnectivityChecker
 ) : CoroutineExecutor<Intent, Action, State, Message, Label>() {
-    @OptIn(ExperimentalPagingApi::class, ExperimentalCoroutinesApi::class)
     override fun executeIntent(intent: Intent) {
         when (intent) {
-            is Intent.RefreshPagingDataFlow -> {
-                scope.launch {
+            is Intent.RefreshFilterMap -> {
+                dispatch(Message.UpdateFilterMap(intent.filter))
+                forward(Action.SendPagingDataFlow)
+            }
+        }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun executeAction(action: Action) {
+        when (action) {
+            is Action.SendPagingDataFlow -> {
+                val filterMap = state().filterMap
+                val flowHeroPager = if (filterMap.isEmpty()) {
+                    Pager(
+                        config = PagingConfig(
+                            pageSize = 50,
+                            enablePlaceholders = false
+                        ),
+                        pagingSourceFactory = { appDatabase.heroes().all() },
+                        remoteMediator = HeroRemoteMediator(
+                            hashMapOf(),
+                            filterAllCharactersUseCase,
+                            appDatabase,
+                            connectivityChecker
+                        )
+                    ).flow.map { value -> value.map { entityModel -> entityModel.mapToDomain() } }
+                } else {
                     val clauses = mutableListOf<String>()
                     val args = mutableListOf<Any>()
 
-                    intent.filter.forEach { (column, value) ->
+                    filterMap.forEach { (column, value) ->
                         if (value.isNotBlank()) {
                             clauses += "$column LIKE ?"
                             args += "${value.trim()}%"
@@ -45,29 +67,23 @@ class CatalogExecutor(
                     val sql = "SELECT * FROM heroes $where ORDER BY id ASC"
                     val query = SimpleSQLiteQuery(sql, args.toTypedArray())
 
-                    val flowHeroPager = Pager(
+                    Pager(
                         config = PagingConfig(
                             pageSize = 50,
                             enablePlaceholders = false
                         ),
                         pagingSourceFactory = { appDatabase.heroes().filtered(query) },
                         remoteMediator = HeroRemoteMediator(
-                            intent.filter,
+                            filterMap,
                             filterAllCharactersUseCase,
                             appDatabase,
-                            connectivityChecker,
+                            connectivityChecker
                         )
                     ).flow.map { value -> value.map { entityModel -> entityModel.mapToDomain() } }
-
-                    dispatch(UpdatePagingDataFlow(flowHeroPager))
                 }
-            }
-        }
-    }
 
-    override fun executeAction(action: Action) {
-        when (action) {
-            is Action.SendPagingDataFlow -> dispatch(UpdatePagingDataFlow(action.flowPager))
+                dispatch(UpdatePagingDataFlow(flowHeroPager))
+            }
         }
     }
 }

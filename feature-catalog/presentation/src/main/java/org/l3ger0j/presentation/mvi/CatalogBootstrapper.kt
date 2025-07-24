@@ -15,29 +15,9 @@ import org.l3ger0j.data.source.database.AppDatabase
 import org.l3ger0j.domain.usecase.FilterAllCharactersUseCase
 import org.l3ger0j.presentation.mvi.CatalogStore.Action
 
-class CatalogBootstrapper(
-    private val filterAllCharactersUseCase: FilterAllCharactersUseCase,
-    private val appDatabase: AppDatabase,
-    private val connectivityChecker: ConnectivityChecker
-) : CoroutineBootstrapper<Action>() {
+class CatalogBootstrapper : CoroutineBootstrapper<Action>() {
     @OptIn(ExperimentalPagingApi::class, ExperimentalCoroutinesApi::class)
     override fun invoke() {
-        scope.launch {
-            val flowHeroPager = Pager(
-                config = PagingConfig(
-                    pageSize = 50,
-                    enablePlaceholders = false
-                ),
-                pagingSourceFactory = { appDatabase.heroes().all() },
-                remoteMediator = HeroRemoteMediator(
-                    hashMapOf(),
-                    filterAllCharactersUseCase,
-                    appDatabase,
-                    connectivityChecker
-                )
-            ).flow.map { value -> value.map { entityModel -> entityModel.mapToDomain() } }
-
-            dispatch(Action.SendPagingDataFlow(flowHeroPager))
-        }
+        dispatch(Action.SendPagingDataFlow)
     }
 }

@@ -6,8 +6,6 @@ import com.arkivanov.mvikotlin.extensions.coroutines.stateFlow
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.StateFlow
-import org.l3ger0j.data.mapper.mapToDomain
-import org.l3ger0j.data.source.database.model.HeroesEntityModel
 import org.l3ger0j.domain.model.Hero
 import org.l3ger0j.presentation.mvi.CatalogStore
 import org.l3ger0j.presentation.mvi.RealCatalogStore
@@ -25,7 +23,7 @@ class RealCatalogComponent(
     override val model: StateFlow<CatalogStore.State> = store.stateFlow
 
     override fun doRefresh(filter: HashMap<String, String>) {
-        store.accept(CatalogStore.Intent.RefreshPagingDataFlow(filter))
+        store.accept(CatalogStore.Intent.RefreshFilterMap(filter))
     }
 
     override fun moveToOther(dataToView: Hero) {

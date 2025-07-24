@@ -5,10 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import org.koin.android.ext.koin.androidContext
@@ -18,8 +15,6 @@ import org.l3ger0j.herowatch.ui.theme.HeroWatchTheme
 import org.l3ger0j.network.networkModule
 import org.l3ger0j.presentation.CatalogContent
 import org.l3ger0j.presentation.DetailsContent
-import org.l3ger0j.presentation.RealCatalogComponent
-import org.l3ger0j.presentation.RealDetailsComponent
 import org.l3ger0j.presentation.di.featureCatalogModules
 
 class MainActivity : ComponentActivity() {
