@@ -37,7 +37,7 @@ class CatalogExecutor(
                     intent.filter.forEach { (column, value) ->
                         if (value.isNotBlank()) {
                             clauses += "$column LIKE ?"
-                            args += "%${value.trim()}%"
+                            args += "${value.trim()}%"
                         }
                     }
                     val where =
