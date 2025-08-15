@@ -23,10 +23,10 @@ rootProject.name = "Hero Watch"
 
 include(":app")
 
-include(":feature-details:presentation")
-
-include(":feature-catalog:domain")
-include(":feature-catalog:data")
-include(":feature-catalog:presentation")
+include(":features")
+include(":features:catalog:domain")
+include(":features:catalog:data")
+include(":features:catalog:presentation")
+include(":features:details:presentation")
 
 include(":core:network")

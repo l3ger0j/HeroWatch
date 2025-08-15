@@ -48,9 +48,9 @@ android {
 
 dependencies {
     implementation(project(":core:network"))
-    implementation(project(":feature-catalog:domain"))
-    implementation(project(":feature-catalog:presentation"))
-    implementation(project(":feature-details:presentation"))
+    implementation(project(":features:catalog:domain"))
+    implementation(project(":features:catalog:presentation"))
+    implementation(project(":features:details:presentation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

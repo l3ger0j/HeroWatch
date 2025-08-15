@@ -3,11 +3,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "org.l3ger0j.presentation"
+    namespace = "org.l3ger0j.data"
     compileSdk = 36
 
     defaultConfig {
@@ -37,42 +37,29 @@ android {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    implementation(project(":feature-catalog:domain"))
+    implementation(project(":core:network"))
+    implementation(project(":features:catalog:domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
-    implementation(libs.androidx.material3)
-
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    debugImplementation(libs.ui.tooling)
-
-    implementation(libs.textflow.material3)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.ktor3)
+    implementation(platform(libs.ktor.bom))
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.android)
+    implementation(libs.ktor.content.negation)
+    implementation(libs.ktor.content.negation.json)
 
-    implementation(libs.essenty.lifecycle)
-    implementation(libs.decompose.core)
-    implementation(libs.decompose.ext)
-    implementation(libs.mvikotlin.core)
-    implementation(libs.mvikotlin.main)
-    implementation(libs.mvikotlin.coro.ext)
-
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
