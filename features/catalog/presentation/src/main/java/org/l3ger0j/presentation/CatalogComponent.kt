@@ -7,6 +7,6 @@ import org.l3ger0j.presentation.mvi.CatalogStore
 interface CatalogComponent {
     val model: StateFlow<CatalogStore.State>
 
-    fun doRefresh(filter: HashMap<String, String>)
+    fun doRefresh()
     fun moveToOther(dataToView: Hero)
 }

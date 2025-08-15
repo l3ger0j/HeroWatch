@@ -11,24 +11,11 @@ internal class HeroRepositoryImpl(private val ktorClient: HttpClient) : HeroRepo
         const val REPO_LINK = "https://rickandmortyapi.com/api/character"
     }
 
-    override suspend fun getAllCharacters(link: String, filterMap: HashMap<String, String>): ServerResponse {
+    override suspend fun getAllCharacters(link: String): ServerResponse {
         return if (link.isEmpty() || link.isBlank()) {
-            if (filterMap.isEmpty()) {
-                ktorClient.fetchForGet<ServerResponse>(REPO_LINK).getOrDefault(ServerResponse())
-            } else {
-                ktorClient.fetchForGet<ServerResponse>("$REPO_LINK/?${filterMap.entries.joinToString(separator = "&")}").getOrDefault(ServerResponse())
-            }
+            ktorClient.fetchForGet<ServerResponse>(REPO_LINK).getOrDefault(ServerResponse())
         } else {
-            if (filterMap.isEmpty()) {
-                ktorClient.fetchForGet<ServerResponse>(link).getOrDefault(ServerResponse())
-            } else {
-                val entriesConv = filterMap.entries.joinToString(separator = "&")
-                if (link.contains(entriesConv, ignoreCase = true)) {
-                    ktorClient.fetchForGet<ServerResponse>(link).getOrDefault(ServerResponse())
-                } else {
-                    ktorClient.fetchForGet<ServerResponse>("$link&$entriesConv").getOrDefault(ServerResponse())
-                }
-            }
+            ktorClient.fetchForGet<ServerResponse>(link).getOrDefault(ServerResponse())
         }
     }
 }

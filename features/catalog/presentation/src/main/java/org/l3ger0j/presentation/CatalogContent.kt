@@ -44,17 +44,12 @@ fun CatalogContent(
     val data = state.flowPagingData.collectAsLazyPagingItems()
     val sizeResolver = rememberConstraintsSizeResolver()
     val isRefresh = remember { mutableStateOf(false) }
-    val filterMap: HashMap<String, String> = rememberSaveable { state.filterMap }
-
-//    if (state.filterMap.isEmpty() && filterMap.isNotEmpty()) {
-//        component.doRefresh(filterMap)
-//    }
 
     Scaffold(
         topBar = {
             Column {
-                CatalogSearchFilterBar(filterMap, component)
-                CatalogChipRow(filterMap, component)
+                CatalogSearchFilterBar()
+                CatalogChipRow()
             }
         }
     ) { pad ->
@@ -62,7 +57,7 @@ fun CatalogContent(
             isRefreshing = isRefresh.value,
             onRefresh = {
                 isRefresh.value = true
-                component.doRefresh(filterMap)
+                component.doRefresh()
             },
             modifier = Modifier
                 .fillMaxSize()

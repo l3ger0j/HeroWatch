@@ -22,8 +22,8 @@ class RealCatalogComponent(
     @OptIn(ExperimentalCoroutinesApi::class)
     override val model: StateFlow<CatalogStore.State> = store.stateFlow
 
-    override fun doRefresh(filter: HashMap<String, String>) {
-        store.accept(CatalogStore.Intent.RefreshFilterMap(filter))
+    override fun doRefresh() {
+        store.accept(CatalogStore.Intent.RefreshFilterMap)
     }
 
     override fun moveToOther(dataToView: Hero) {

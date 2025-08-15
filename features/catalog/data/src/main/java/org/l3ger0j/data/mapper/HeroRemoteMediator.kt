@@ -7,16 +7,13 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import org.l3ger0j.data.repository.HeroRepositoryImpl.Companion.REPO_LINK
 import org.l3ger0j.data.source.database.AppDatabase
 import org.l3ger0j.data.source.database.model.HeroResponseEntityModel
 import org.l3ger0j.data.source.database.model.HeroesEntityModel
-import org.l3ger0j.domain.model.Hero
 import org.l3ger0j.domain.usecase.FilterAllCharactersUseCase
 
 @OptIn(ExperimentalPagingApi::class)
 class HeroRemoteMediator(
-    private val filter: HashMap<String, String>,
     private val allHero: FilterAllCharactersUseCase,
     private val appDatabase: AppDatabase,
     private val connectivity: ConnectivityChecker
@@ -62,7 +59,7 @@ class HeroRemoteMediator(
             }
         }
 
-        val apiResponse = allHero.execute(loadKey, filter)
+        val apiResponse = allHero.execute(loadKey)
         val heroes = apiResponse.results
         val endOfPaginationReached = heroes.isEmpty()
 
