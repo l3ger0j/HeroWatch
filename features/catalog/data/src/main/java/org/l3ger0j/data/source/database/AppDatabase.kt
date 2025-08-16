@@ -7,11 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import org.l3ger0j.data.source.database.model.HeroResponseEntityModel
 import org.l3ger0j.data.source.database.model.HeroesEntityModel
-import org.l3ger0j.data.source.database.model.ListTypeConverter
-import org.l3ger0j.data.source.database.model.LocationTypeConverter
-import org.l3ger0j.data.source.database.model.OriginTypeConverter
 
-@TypeConverters(value = [ListTypeConverter::class, OriginTypeConverter::class, LocationTypeConverter::class])
 @Database(
     entities = [HeroesEntityModel::class, HeroResponseEntityModel::class],
     version = 1,
