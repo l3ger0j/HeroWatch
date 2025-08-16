@@ -66,6 +66,7 @@ decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "
 decompose-ext = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 textflow-material3 = { module = "io.github.oleksandrbalan:textflow-material3", version.ref = "textflowMaterial3" }
+pokekotlin = { module = "co.pokeapi.pokekotlin:pokekotlin", version = "3.0.0-pre4" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 

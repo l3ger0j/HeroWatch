@@ -19,7 +19,7 @@ class RealCatalogStore(private val storeFactory: StoreFactory) : KoinComponent {
             bootstrapper = coroutineBootstrapper {
                 dispatch(Action.InitialLoadPager)
             },
-            executorFactory = { CatalogExecutor(get(), get(), ConnectivityChecker(get())) },
+            executorFactory = { CatalogExecutor(get(), ConnectivityChecker(get())) },
             reducer = CatalogReducer
         ) {}
 }

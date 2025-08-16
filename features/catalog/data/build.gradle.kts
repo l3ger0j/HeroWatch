@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
 
+    implementation(libs.pokekotlin)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

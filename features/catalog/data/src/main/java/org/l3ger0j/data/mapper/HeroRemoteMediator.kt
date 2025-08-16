@@ -2,19 +2,19 @@ package org.l3ger0j.data.mapper
 
 import android.Manifest
 import androidx.annotation.RequiresPermission
+import androidx.core.net.toUri
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import co.pokeapi.pokekotlin.PokeApi
 import org.l3ger0j.data.source.database.AppDatabase
 import org.l3ger0j.data.source.database.model.HeroResponseEntityModel
 import org.l3ger0j.data.source.database.model.HeroesEntityModel
-import org.l3ger0j.domain.usecase.FilterAllCharactersUseCase
 
 @OptIn(ExperimentalPagingApi::class)
 class HeroRemoteMediator(
-    private val allHero: FilterAllCharactersUseCase,
     private val appDatabase: AppDatabase,
     private val connectivity: ConnectivityChecker
 ) : RemoteMediator<Int, HeroesEntityModel>() {
@@ -59,7 +59,8 @@ class HeroRemoteMediator(
             }
         }
 
-        val apiResponse = allHero.execute(loadKey)
+        val offsetLoadKey = loadKey.toUri().getQueryParameter("offset") ?: "0"
+        val apiResponse = PokeApi.getPokemonVarietyList(offsetLoadKey.toInt(), 50)
         val heroes = apiResponse.results
         val endOfPaginationReached = heroes.isEmpty()
 
@@ -69,14 +70,21 @@ class HeroRemoteMediator(
                 appDatabase.heroResponse().clearAll()
             }
 
-            val prev = apiResponse.info.prev
-            val next = if (endOfPaginationReached) "" else apiResponse.info.next
+            val prev = apiResponse.previous ?: ""
+            val next = if (endOfPaginationReached) "" else apiResponse.next ?: ""
             val keys = heroes.map {
                 HeroResponseEntityModel(heroId = it.id, next = next, prev = prev)
             }
+            val hero = heroes.map { PokeApi.getPokemonVariety(it.id) }
 
             appDatabase.heroResponse().insertOrReplaceAll(keys)
-            appDatabase.heroes().insertOrReplaceAll(heroes.mapToEntity())
+            appDatabase.heroes().insertOrReplaceAll(hero.map { result ->
+                HeroesEntityModel(
+                    id = result.id,
+                    name = result.name,
+                    spriteFrontDefault = result.sprites.frontDefault ?: ""
+                )
+            })
         }
 
         return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
