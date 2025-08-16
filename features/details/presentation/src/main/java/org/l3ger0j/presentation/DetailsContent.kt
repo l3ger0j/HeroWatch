@@ -57,21 +57,21 @@ fun DetailsContent(
     val currentHero = component.hero
     val uriHandler = LocalUriHandler.current
 
-    val originUrl = LinkAnnotation.Url(
-        currentHero.origin.url,
-        TextLinkStyles(SpanStyle(color = Color.Blue))
-    ) {
-        val url = (it as LinkAnnotation.Url).url
-        uriHandler.openUri(url)
-    }
+//    val originUrl = LinkAnnotation.Url(
+//        currentHero.origin.url,
+//        TextLinkStyles(SpanStyle(color = Color.Blue))
+//    ) {
+//        val url = (it as LinkAnnotation.Url).url
+//        uriHandler.openUri(url)
+//    }
 
-    val locUrl = LinkAnnotation.Url(
-        currentHero.location.url,
-        TextLinkStyles(SpanStyle(color = Color.Blue))
-    ) {
-        val url = (it as LinkAnnotation.Url).url
-        uriHandler.openUri(url)
-    }
+//    val locUrl = LinkAnnotation.Url(
+//        currentHero.location.url,
+//        TextLinkStyles(SpanStyle(color = Color.Blue))
+//    ) {
+//        val url = (it as LinkAnnotation.Url).url
+//        uriHandler.openUri(url)
+//    }
 
     Scaffold(
         topBar = {
@@ -97,42 +97,23 @@ fun DetailsContent(
                 item {
                     val text = buildAnnotatedString {
                         appendLine("Name: ${currentHero.name}")
-                        appendLine("Species: ${currentHero.species}")
-                        appendLine("Gender: ${currentHero.gender}")
-                        appendLine("Status: ${currentHero.status}")
-                        if (!currentHero.type.isEmpty()) {
-                            appendLine("Type: ${currentHero.type}")
-                        }
-                        withLink(originUrl) { appendLine("Origin: ${currentHero.origin.name}") }
-                        withLink(locUrl) { appendLine("Location: ${currentHero.location.name}") }
                     }
                     TextFlow(
                         text = text,
-                        obstacleAlignment = TextFlowObstacleAlignment.TopEnd,
+                        obstacleAlignment = TextFlowObstacleAlignment.TopStart,
                         obstacleContent = {
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalPlatformContext.current)
-                                    .data(currentHero.image)
+                                    .data(currentHero.spriteFrontDefault)
                                     .size(sizeResolver)
                                     .build(),
                                 contentDescription = null,
-                                contentScale = ContentScale.Fit,
+                                contentScale = ContentScale.FillBounds,
                                 modifier = Modifier
                                     .weight(1f)
                                     .clip(RoundedCornerShape(8.dp))
                             )
                         }
-                    )
-                }
-            }
-            Text("Episodes:", style = MaterialTheme.typography.titleMedium)
-            FlowRow(
-                modifier = Modifier.weight(0.5f)
-            ) {
-                currentHero.episode.forEachIndexed { index, string ->
-                    ElevatedAssistChip(
-                        onClick = { uriHandler.openUri(string) },
-                        label = { Text("Episode $index") }
                     )
                 }
             }
