@@ -4,18 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import org.l3ger0j.data.source.database.model.HeroEntityFTS
 import org.l3ger0j.data.source.database.model.HeroResponseEntityModel
 import org.l3ger0j.data.source.database.model.HeroesEntityModel
 
 @Database(
-    entities = [HeroesEntityModel::class, HeroResponseEntityModel::class],
+    entities = [HeroesEntityModel::class, HeroResponseEntityModel::class, HeroEntityFTS::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun heroes(): HeroesDAO
     abstract fun heroResponse(): HeroResponseDAO
+    abstract fun heroesFTSDAO(): HeroesFTSDAO
 
     companion object {
         @Volatile

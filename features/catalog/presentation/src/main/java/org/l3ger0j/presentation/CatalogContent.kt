@@ -1,19 +1,19 @@
 package org.l3ger0j.presentation
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -22,10 +22,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -42,14 +40,14 @@ fun CatalogContent(
 ) {
     val state by component.model.collectAsState()
     val data = state.flowPagingData.collectAsLazyPagingItems()
-    val sizeResolver = rememberConstraintsSizeResolver()
     val isRefresh = remember { mutableStateOf(false) }
+    val sizeResolver = rememberConstraintsSizeResolver()
 
     Scaffold(
         topBar = {
             Column {
-                CatalogSearchFilterBar()
-                CatalogChipRow()
+                CatalogSearchFilterBar(component)
+                CatalogChipRow(component)
             }
         }
     ) { pad ->
@@ -68,33 +66,32 @@ fun CatalogContent(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(data.itemCount) { index ->
-                    data[index]?.let {
-                        ListItem(
-                            modifier = Modifier.clickable(onClick = { component.moveToOther(it) }),
-                            leadingContent = {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalPlatformContext.current)
-                                        .data(it.image)
-                                        .size(sizeResolver)
-                                        .build(),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .size(40.dp)
-                                        .clip(CircleShape)
-                                )
-                            },
-                            headlineContent = { Text(it.name) },
-                            supportingContent = { Text("${it.gender}|${it.species}") },
-                            trailingContent = { Text(it.status) }
-                        )
+                    data[index]?.let { hero ->
+                        Card(onClick = { component.moveToOther(hero) }) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalPlatformContext.current)
+                                    .data(hero.spriteFrontDefault)
+                                    .size(sizeResolver)
+                                    .build(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(100.dp)
+                            )
+                            Text(
+                                text = hero.name.replaceFirstChar { it.uppercase() },
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier.padding(8.dp)
+                            )
+                        }
                     }
                 }
                 data.loadState.apply {
                     when {
                         refresh is LoadState.NotLoading && data.itemCount < 1 -> {
                             item {
-                                ListItem(headlineContent = { Text("No Items") })
+                                ListItem(headlineContent = { Text("No Pokemon") })
                             }
                         }
 

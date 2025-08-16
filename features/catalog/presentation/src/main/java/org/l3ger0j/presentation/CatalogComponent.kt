@@ -8,5 +8,6 @@ interface CatalogComponent {
     val model: StateFlow<CatalogStore.State>
 
     fun doRefresh()
+    fun textSearch(textSearch: String)
     fun moveToOther(dataToView: Hero)
 }

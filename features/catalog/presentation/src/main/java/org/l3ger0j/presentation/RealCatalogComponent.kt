@@ -26,6 +26,10 @@ class RealCatalogComponent(
         store.accept(CatalogStore.Intent.RefreshFilterMap)
     }
 
+    override fun textSearch(textSearch: String) {
+        store.accept(CatalogStore.Intent.FindTextPaging(textSearch))
+    }
+
     override fun moveToOther(dataToView: Hero) {
         moveToDetails.invoke(dataToView)
     }

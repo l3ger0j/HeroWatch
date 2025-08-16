@@ -16,6 +16,7 @@ interface CatalogStore : Store<Intent, State, Label> {
 
     sealed interface Intent {
         data object RefreshFilterMap : Intent
+        data class FindTextPaging(val textToSearch: String): Intent
     }
 
     sealed interface Message {
