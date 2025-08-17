@@ -18,7 +18,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,14 +27,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.compose.rememberConstraintsSizeResolver
 import coil3.request.ImageRequest
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.l3ger0j.catalog.presentation.mvi.CatalogStore
+import org.l3ger0j.domain.model.Hero
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,14 +45,13 @@ fun CatalogContent(
     val isRefresh = remember { mutableStateOf(false) }
     val sizeResolver = rememberConstraintsSizeResolver()
 
-    val labels by component.labels.collectAsState(CatalogStore.Label.UpdatePagingDataFlow(emptyFlow()))
+    val labels by component.labels.collectAsState(
+        CatalogStore.Label.UpdatePagingDataFlow(
+            MutableStateFlow(PagingData.from(listOf()))
+        )
+    )
     val data =
         (labels as CatalogStore.Label.UpdatePagingDataFlow).flowPager.collectAsLazyPagingItems()
-
-    LaunchedEffect(Unit) {
-        delay(1000)
-        component.doRefresh()
-    }
 
     Scaffold(
         topBar = {
