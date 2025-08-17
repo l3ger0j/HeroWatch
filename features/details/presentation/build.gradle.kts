@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "org.l3ger0j.presentation"
+    namespace = "org.l3ger0j.details.presentation"
     compileSdk = 36
 
     defaultConfig {

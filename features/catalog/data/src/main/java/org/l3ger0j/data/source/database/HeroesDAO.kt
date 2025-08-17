@@ -12,11 +12,16 @@ interface HeroesDAO {
     @Query("SELECT * FROM heroes")
     fun all(): PagingSource<Int, HeroesEntityModel>
 
-    @Query("SELECT * FROM heroes")
-    fun filtered(): PagingSource<Int, HeroesEntityModel>
+    @Query(
+        "SELECT * FROM heroes " +
+                " ORDER BY  " +
+                "      CASE :filter WHEN 'id' THEN id END ASC," +
+                "      CASE :filter WHEN 'name' THEN name END ASC"
+    )
+    fun orderBy(filter: String): PagingSource<Int, HeroesEntityModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrReplaceAll(users: List<HeroesEntityModel>)
+    suspend fun insertReplaceSingle(user: HeroesEntityModel)
 
     @Query("DELETE FROM heroes")
     suspend fun clearAll()

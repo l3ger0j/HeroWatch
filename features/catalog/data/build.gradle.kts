@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "org.l3ger0j.data"
+    namespace = "org.l3ger0j.details.data"
     compileSdk = 36
 
     defaultConfig {
@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:network"))
     implementation(project(":features:catalog:domain"))
 
     implementation(libs.androidx.core.ktx)

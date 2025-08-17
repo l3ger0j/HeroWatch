@@ -4,11 +4,12 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "org.l3ger0j.presentation"
+    namespace = "org.l3ger0j.details.presentation"
     compileSdk = 36
 
     defaultConfig {
@@ -26,6 +27,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+
+    configurations.configureEach {
+        exclude(group = "androidx.paging", module = "paging-common-jvm")
     }
 
     compileOptions {
@@ -81,6 +86,7 @@ dependencies {
     implementation(libs.mvikotlin.coro.ext)
 
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

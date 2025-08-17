@@ -9,13 +9,16 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
+import org.l3ger0j.catalog.presentation.RealCatalogComponent
+import org.l3ger0j.catalog.presentation.mvi.CatalogStore
+import org.l3ger0j.details.presentation.RealDetailsComponent
 import org.l3ger0j.domain.model.Hero
-import org.l3ger0j.presentation.RealCatalogComponent
-import org.l3ger0j.presentation.RealDetailsComponent
+import org.l3ger0j.domain.usecase.PreloadAppDBUseCase
 
 class RealRootComponent(
-    private val componentContext: ComponentContext
-) : ComponentContext by componentContext, RootComponent {
+    private val componentContext: ComponentContext,
+    private val preloadAppDBUseCase: PreloadAppDBUseCase,
+    ) : ComponentContext by componentContext, RootComponent {
 
     private val navigation = StackNavigation<ChildConfig>()
 
@@ -28,17 +31,32 @@ class RealRootComponent(
             childFactory = ::createChild
         )
 
+    suspend fun preloadAppDB() {
+        preloadAppDBUseCase.execute()
+    }
+
     @OptIn(DelicateDecomposeApi::class)
     private fun createChild(
         config: ChildConfig,
         componentContext: ComponentContext
     ): RootComponent.Child = when (config) {
         is ChildConfig.Catalog -> {
-            RootComponent.Child.CatalogChild(RealCatalogComponent(componentContext) { navigation.push(ChildConfig.Details(it)) })
+            RootComponent.Child.CatalogChild(
+                RealCatalogComponent(
+                    componentContext = componentContext,
+                    moveToDetails = { navigation.push(ChildConfig.Details(it)) }
+                )
+            )
         }
 
         is ChildConfig.Details -> {
-            RootComponent.Child.DetailsChild(RealDetailsComponent(componentContext, config.dataShow) { navigation.pop() })
+            RootComponent.Child.DetailsChild(
+                RealDetailsComponent(
+                    componentContext = componentContext,
+                    dataToView = config.dataShow,
+                    backToCatalog = { navigation.pop() }
+                )
+            )
         }
     }
 

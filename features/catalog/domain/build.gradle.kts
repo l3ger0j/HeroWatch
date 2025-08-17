@@ -19,8 +19,10 @@ kotlin {
 
 dependencies {
     implementation(kotlin("reflect"))
-
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.androidx.paging.common.jvm)
 
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)

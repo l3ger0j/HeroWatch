@@ -8,5 +8,6 @@ data class HeroesEntityModel(
     @PrimaryKey
     val id: Int = 0,
     val name: String = "",
+    val types: List<String> = emptyList(),
     val spriteFrontDefault: String = ""
 )

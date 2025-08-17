@@ -2,8 +2,8 @@ package org.l3ger0j.herowatch
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import org.l3ger0j.presentation.CatalogComponent
-import org.l3ger0j.presentation.DetailsComponent
+import org.l3ger0j.catalog.presentation.CatalogComponent
+import org.l3ger0j.details.presentation.DetailsComponent
 
 
 interface RootComponent {

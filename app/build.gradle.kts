@@ -30,6 +30,10 @@ android {
         }
     }
 
+    configurations.configureEach {
+        exclude(group = "androidx.paging", module = "paging-common-jvm")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -47,7 +51,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:network"))
     implementation(project(":features:catalog:domain"))
     implementation(project(":features:catalog:presentation"))
     implementation(project(":features:details:presentation"))

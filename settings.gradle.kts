@@ -28,5 +28,3 @@ include(":features:catalog:domain")
 include(":features:catalog:data")
 include(":features:catalog:presentation")
 include(":features:details:presentation")
-
-include(":core:network")
