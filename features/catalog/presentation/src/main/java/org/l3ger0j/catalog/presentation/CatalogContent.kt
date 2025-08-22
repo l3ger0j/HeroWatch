@@ -1,5 +1,6 @@
 package org.l3ger0j.catalog.presentation
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -77,7 +79,10 @@ fun CatalogContent(
             ) {
                 items(data.itemCount) { index ->
                     data[index]?.let { hero ->
-                        Card(onClick = { component.moveToOther(hero) }) {
+                        Card(
+                            onClick = { component.moveToOther(hero) },
+                            border = BorderStroke(1.dp, Color.LightGray)
+                        ) {
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalPlatformContext.current)
                                     .data(hero.spriteFrontDefault)
