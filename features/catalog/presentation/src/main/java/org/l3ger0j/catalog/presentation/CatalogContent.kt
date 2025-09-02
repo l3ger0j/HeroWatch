@@ -37,7 +37,6 @@ import coil3.compose.rememberConstraintsSizeResolver
 import coil3.request.ImageRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.l3ger0j.catalog.presentation.mvi.CatalogStore
-import org.l3ger0j.domain.model.Hero
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
